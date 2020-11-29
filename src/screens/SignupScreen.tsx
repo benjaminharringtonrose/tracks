@@ -1,50 +1,25 @@
-import React, { useState, useContext } from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
-import { Routes } from "../../App";
-import { Text, Input, Button } from "react-native-elements";
-import Spacer from "../components/Spacer";
+import React, { useContext } from "react";
+import { View, StyleSheet } from "react-native";
 import { Context as AuthContext } from "../context/AuthContext";
+import AuthForm from "../components/AuthForm";
+import NavLink from "../components/NavLink";
+import { Routes } from "../../App";
 
-interface IPassedProps {
-  navigation: any;
-}
-
-interface IPropsFromState {}
-
-type SignupScreenProps = IPassedProps & IPropsFromState;
-
-function SignupScreen(props: SignupScreenProps) {
+function SignupScreen() {
   const { state, signup } = useContext<any>(AuthContext);
-  const { navigation } = props;
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   return (
     <View style={styles.rootContainer}>
-      <Spacer>
-        <Text h3>{"Sign Up for Tracker"}</Text>
-      </Spacer>
-      <Input
-        label={"Email"}
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize={"none"}
-        autoCorrect={false}
+      <AuthForm
+        headerText={"Sign Up for Tracker"}
+        errorMessage={state.errorSignup}
+        submitButtonText={"Sign Up"}
+        onSubmit={signup}
       />
-      <Spacer />
-      <Input
-        label={"Password"}
-        value={password}
-        onChangeText={setPassword}
-        autoCapitalize={"none"}
-        autoCorrect={false}
-        secureTextEntry
+      <NavLink
+        routeName={Routes.Signin}
+        text={"Already have an account? Sign in instead!"}
       />
-      <Spacer>
-        <TouchableOpacity onPress={() => signup({ email, password })}>
-          <Button title={"Sign Up"} />
-        </TouchableOpacity>
-      </Spacer>
     </View>
   );
 }

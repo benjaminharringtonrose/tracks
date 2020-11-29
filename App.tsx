@@ -9,9 +9,20 @@ import SignupScreen from "./src/screens/SignupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
+import ResolveAuthScreen from "./src/screens/ResolveAuthScreen";
 import { Provider as AuthProvider } from "./src/context/AuthContext";
+import { setNavigator } from "./src/navigationRef";
+
+/*
+-- Running the App --
+- Open terminal inside track-server and npm run dev
+- Open terminal inside tracks, and npm run ios
+- Open another terminal inside tracks and npx ngrok http 3000
+-- Then use that http address and paste it into the src/api/tracker.tsx baseURL
+*/
 
 export enum Routes {
+  ResolveAuth = "ResolveAuth",
   authFlow = "authFlow",
   Signup = "Signup",
   Signin = "Signin",
@@ -23,20 +34,26 @@ export enum Routes {
   Account = "Account",
 }
 
-const switchNavigator = createSwitchNavigator({
-  [Routes.authFlow]: createStackNavigator({
-    [Routes.Signup]: SignupScreen,
-    [Routes.Signin]: SigninScreen,
-  }),
-  [Routes.mainFlow]: createBottomTabNavigator({
-    [Routes.trackListFlow]: createStackNavigator({
-      [Routes.TrackList]: TrackListScreen,
-      [Routes.TrackDetail]: TrackDetailScreen,
+const switchNavigator = createSwitchNavigator(
+  {
+    [Routes.ResolveAuth]: ResolveAuthScreen,
+    [Routes.authFlow]: createStackNavigator({
+      [Routes.Signup]: SignupScreen,
+      [Routes.Signin]: SigninScreen,
     }),
-    [Routes.TrackCreate]: TrackCreateScreen,
-    [Routes.Account]: AccountScreen,
-  }),
-});
+    [Routes.mainFlow]: createBottomTabNavigator({
+      [Routes.trackListFlow]: createStackNavigator({
+        [Routes.TrackList]: TrackListScreen,
+        [Routes.TrackDetail]: TrackDetailScreen,
+      }),
+      [Routes.TrackCreate]: TrackCreateScreen,
+      [Routes.Account]: AccountScreen,
+    }),
+  },
+  {
+    initialRouteName: Routes.ResolveAuth,
+  }
+);
 
 const App = createAppContainer(switchNavigator);
 
@@ -45,7 +62,11 @@ export default () => {
     <>
       <StatusBar barStyle={"dark-content"} />
       <AuthProvider>
-        <App />
+        <App
+          ref={(navigator) => {
+            setNavigator(navigator);
+          }}
+        />
       </AuthProvider>
     </>
   );
