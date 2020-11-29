@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, StyleSheet, TouchableOpacity } from "react-native";
 import { Routes } from "../../App";
 import { Text, Input, Button } from "react-native-elements";
 import Spacer from "../components/Spacer";
+import { Context as AuthContext } from "../context/AuthContext";
 
 interface IPassedProps {
   navigation: any;
@@ -13,6 +14,7 @@ interface IPropsFromState {}
 type SignupScreenProps = IPassedProps & IPropsFromState;
 
 function SignupScreen(props: SignupScreenProps) {
+  const { state, signup } = useContext<any>(AuthContext);
   const { navigation } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +41,9 @@ function SignupScreen(props: SignupScreenProps) {
         secureTextEntry
       />
       <Spacer>
-        <Button title={"Sign Up"} />
+        <TouchableOpacity onPress={() => signup({ email, password })}>
+          <Button title={"Sign Up"} />
+        </TouchableOpacity>
       </Spacer>
     </View>
   );

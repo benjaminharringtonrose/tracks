@@ -2,13 +2,14 @@ import React from "react";
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
+import { StatusBar } from "react-native";
 import AccountScreen from "./src/screens/AccountScreen";
 import SigninScreen from "./src/screens/SigninScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
-import { StatusBar } from "react-native";
+import { Provider as AuthProvider } from "./src/context/AuthContext";
 
 export enum Routes {
   authFlow = "authFlow",
@@ -43,7 +44,9 @@ export default () => {
   return (
     <>
       <StatusBar barStyle={"dark-content"} />
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </>
   );
 };
