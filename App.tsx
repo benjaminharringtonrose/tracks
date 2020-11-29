@@ -8,17 +8,18 @@ import SignupScreen from "./src/screens/SignupScreen";
 import TrackCreateScreen from "./src/screens/TrackCreateScreen";
 import TrackDetailScreen from "./src/screens/TrackDetailScreen";
 import TrackListScreen from "./src/screens/TrackListScreen";
+import { StatusBar } from "react-native";
 
-enum Routes {
+export enum Routes {
   authFlow = "authFlow",
   Signup = "Signup",
   Signin = "Signin",
   mainFlow = "mainFlow",
-  Account = "Account",
-  TrackCreate = "TrackCreate",
   trackListFlow = "trackListFlow",
   TrackList = "TrackList",
   TrackDetail = "TrackDetail",
+  TrackCreate = "TrackCreate",
+  Account = "Account",
 }
 
 const switchNavigator = createSwitchNavigator({
@@ -36,4 +37,13 @@ const switchNavigator = createSwitchNavigator({
   }),
 });
 
-export default createAppContainer(switchNavigator);
+const App = createAppContainer(switchNavigator);
+
+export default () => {
+  return (
+    <>
+      <StatusBar barStyle={"dark-content"} />
+      <App />
+    </>
+  );
+};
