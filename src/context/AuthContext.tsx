@@ -4,7 +4,7 @@ import trackerApi from "../api/tracker";
 import { navigate } from "../navigationRef";
 import { Routes } from "../../App";
 
-interface IAction {
+export interface IAction {
   type: string;
   payload: any;
 }
